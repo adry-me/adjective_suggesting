@@ -11,11 +11,11 @@ from remove_special import remove_special
 from merge_lines import merge
 
 
-def parse(filename, exclude_target: list, marker_options: dict, special_char, special_with_blank, save=False  save_path=None):
+def parse(filename, exclude_target: list, marker_options: dict, special_char, special_with_blank, save=False,  save_path=None):
     lines = load_file(filename)
     markers = get_markers(lines, **marker_options)
     lines = concatenate(lines, markers)
-    
+
     for marker in markers:
         lines.pop(marker)
 
@@ -33,10 +33,10 @@ def parse(filename, exclude_target: list, marker_options: dict, special_char, sp
 def load_file(filename):
     with open(filename) as f:
         lines = f.readlines()
-        
+
     lines = list(map(str.rstrip, lines))
     lines = list(map(str.lower, lines))
-    
+
     return lines
 
 
@@ -44,7 +44,8 @@ if __name__ == '__main__':
     exclude_target = ['mr', 'ms', 'mrs', 'etc']
     special_char = ['-', '‘',]
     special_char_with_blank = ['.', '!', '?', ';', ',', '’', ':']
-    contents = parse('P_P.txt',
+    filename = 'P_P'
+    contents = parse(f'{filename}.txt',
                      exclude_target,
                     {
                     'split': '* * * * *',
@@ -53,8 +54,10 @@ if __name__ == '__main__':
                     'website': 'eBook.com',
                     },
                     special_char,
-                    special_char_with_blank
+                    special_char_with_blank,
+                    save=True,
+                    save_path='P_P_mod.txt'
                      )
-    
+
     for content in contents:
         print(content)
