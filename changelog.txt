@@ -1,0 +1,604 @@
+SmartGit 20.1.4 (2020-07-29)
+============================
+Fixed Bugs
+----------
+- Changes: is not cleaned up correctly if file is selected and repository is removed outside SmartGit
+- Compare, Conflict Solver:
+    - internal error applying last (non-empty) line to other side
+- Conflict Solver:
+    - "compare.applyGitFilters" was not honored
+- Distributed Reviews:
+    - Integrate Pull Request: squashing fails with Git error "You cannot combine --squash with --commit"
+- Files, Copy commands: internal error if invoked in bare repository
+- Format Patch default external tool: was only available for head commit (regression)
+- GitHub Enterprise/GitLab: client certificates without password couldn't be used
+- Log
+    - Graph: Checkout offered to track even remote head branch, e.g. origin/HEAD
+    - Refresh: after opening repository, background tasks (like continuing SVN clone) were not scheduled
+- Refresh: "File system loop encountered" as part of the node cache refreshing
+- Settings: bugtracker-settings.xml was not read on first start
+- SVN:
+    - possible problems when trying to resume a clone
+- Table control: with table.scrollToSelection=false setting a selection did not unselect previously selected files
+- Working Tree window: title was not showing open repository under certain conditions
+
+
+SmartGit 20.1.3 (2020-06-23)
+============================
+New Features, Improvements
+--------------------------
+- File Log, Blame, Investigate: rename detection for searching the file origin was limited to commits with up to 500 additions/removals
+- Search for Repositories: added low-level property repositorySearch.autoSearchInDialog to disable the automatic search (useful for slow machines with hard drives)
+
+Fixed Bugs
+----------
+- could not be started with + sign in the path
+- BitBucket/others: Create Pull Request dialog contained duplicate target entries
+- Distributes Reviews:
+    - Branches view: "Show Closed Pull Requests" had no effect
+- External Tools: even if 2 refs are required, the tool could be invoked on a single ref
+- Find Object, open repository: did not always select open repository
+- File compare: stderr/stdout redirection for external tools did not work
+- GitHub:
+    - possible "404 not found" error for subsequent refresh after adding a comment
+    - Log: possible out-of-memory error while refreshing comments
+- Log:
+    - Files:
+        - for file log, the filter pattern from the repository root log was initialized
+    - Graph:
+        - when filtered, checking out a commit may erroneously check out mapped local/remote branch, e.g. different commit
+        - Linux: right-clicking set focus too late and hence showed an outdated context menu
+- Refresh:
+    - possible endless loop in file system benchmarking code
+    - Working Tree window: opening broken repository (without admin dir) broke subsequent refreshing and file monitoring until repository was closed and reopened
+- macOS:
+    - table controls: right-clicking the table header to show the column menu did not work if scrolled
+- Windows:
+    - cloning to path with lower-case drive letter caused core.worktree to be set resulting in a notification of SmartGit - workaround for a Git bug
+
+
+SmartGit 20.1.2 (2020-05-07)
+============================
+New Features, Improvements
+--------------------------
+- Commit template: set caret at the end of the first (valid) line (instead of the beginning)
+- Log, Graph view: set low-level property "log.graph.showMergeCommitsGray" to false to not avoid gray merge commits
+- Rebase Interactive, Investigate: don't stop after title when shortening message
+- Search/Filter: set low-level property "fileSearchOrFilter.matchInside" to false to match the file name start
+- Refresh: set low-level property "nodecache.reflogRoots.followSymlinks" to false to prevent possible "java.nio.file.FileSystemLoopException"
+
+Fixed Bugs
+----------
+- Blame: didn't distinguish between trailing line ending or not
+- Branches view: Del key did not invoke Delete command on focused remote
+- Commit: committing many files created multiple commits
+- Compare, Index Editor: did not keep posix file mode on save
+- Files view: "intent-to-add" files showed up as "modified"
+- Gravatar images: incorrectly sized when switching between display zoom level 100% <-> 200% on the same machine
+- JIRA integration (cloud instance): didn't re-ask for password in case of HTTP error 403
+- Linux: launcher script suggested to try SWT_GTK3=0 though GTK2 is not supported any more
+- Log
+    - Changes view: changes for "assume unchanged" files were not displayed (as in Working Tree window)
+    - Commit view: missing primary "parent" link for merge commit when "Follow Only First Parent" is selected
+    - Files view: internal error comparing Index with conflicts against commit
+    - Graph view: signed commit symbol was not supported by macOS system font
+    - window could be closed while a command was running
+    - pressing Ctrl+Shift+3 if all files are staged, did not focus the right table in the Files view
+- Preferences, Colors tab: no editor colors were shown on macOS
+- Refresh:
+    - internal error if core.excludesfile points to invalid path
+    - internal error if HEAD points to non-local branch
+    - possible internal error related to core.ignoreCase=true on case-sensitive file system (e.g. Linux)
+    - removed but ignored, physically existing file showed up as untracked
+- Stage:
+    - possible internal error for file names containing special characters
+    - possible error "..\System Volume Information"
+    - Windows: possible error "the following file has local modifications"
+- SSH: using "System SSH" Git was not correctly configured for plink passing invalid arguments ("plink: unknown option "-o"")
+
+
+
+SmartGit 20.1.1 (2020-03-24)
+============================
+Fixed Bugs
+----------
+- Commit: internal error double-clicking entry in file completion popup
+- Clone: internal error if clone finishes after the repository had been removed while cloning
+- several commands: internal errors for "unusual" file names
+- Log:
+    - Files view (Linux): staging all files loses focus
+    - Refresh: working tree node doesn't show up after switching back to modified repository
+
+Other Noteworthy Changes
+------------------------
+- Setup wizard: the Log vs. Working Tree option covers more changed options now
+- updated Chinese translation
+
+
+SmartGit 20.1.0 (2020-03-19)
+============================
+Fixed Bugs
+----------
+- temp dir cleanup did not work reliable on shutdown
+- Windows installer: did not uninstall "Open in SmartGit" explorer context menus
+- Windows: tree control uses full row selection as on other platforms, because https://bugs.eclipse.org/bugs/show_bug.cgi?id=438479 seems to be fixed now
+- SVN:
+    - Log, Graph: "SVN revision" column won't immediately show up after opening SVN repository (but only after first refresh once it's already open)
+
+
+SmartGit 20.1 RC 3 (2020-03-13)
+===============================
+New Features, Improvements
+--------------------------
+- Select JIRA Issue dialog: ability to copy key or summary
+- Add Worktree: tries to prevent putting working trees inside the repository structure
+
+Fixed Bugs
+----------
+- Add Submodule: possible screwed up layout on second page
+- Blame:
+    - line selection may jump unexpectedly when browsing through commits
+    - may show wrong "merged through" commit if there are different merge-paths from the commit to the main line
+- Branches: Pull (and Set Depth): possible internal error trying to invoke on remote of bare repository
+- Changes view: selecting large binary file can cause OOME by calculating hash
+- Ignore: ignored escaping backslash characters when writing ignore file
+- Log:
+    - Graph: filtering for a single commit in large repository should not cache all commit data encountered
+- Open repository: when opening a repository that already is open in a minimized window, this window will be restored
+- Output: may show unexpected "[K..." prefix with recent Git versions
+- Refresh:
+    - possible internal error related to untracked-missing rename detection
+    - Removing missing repository might fail if the repository was open in another window
+- Repository search: repository in drive root had no useful name
+- Stage:
+    - on repository on symlink root may remove files instead of adding them
+    - Windows:
+        - possible internal error related to case-only-changed files
+        - with ignoreCase=false, missing files from case-change can't be staged
+- macOS: file completion in file or directory input fields fails on symlinks
+
+Other Noteworthy Changes
+------------------------
+- Working tree window:
+    - by default show Commit view and hide Commit toolbar button
+    - by default the Files view shows 2 lists for Working Tree and Index
+    - Commit: by default the commit dialog selects to commit staged files, even if a working tree file without staged changes is selected
+
+
+SmartGit 20.1 RC 2 (2020-03-04)
+===============================
+Fixed Bugs
+----------
+- Log window:
+    - Branches:
+        - Compare with HEAD: should be disabled for the current branch
+- Working tree window:
+    - Repositories: ahead/behind information (orange/green arrow) is not properly cached for non-favorite repositories
+- macOS: default external tool "Open in Terminal" might be created multiple times if the application bundle is renamed or accessed from different file systems
+- Windows: Stage: possible "System Volume Information" error for repositories located on drive root
+- SVN:
+    - Clone: logs FileSystemException when detecting symlink support on Windows
+
+
+SmartGit 20.1 RC 1 (2020-02-25)
+===============================
+New Features, Improvements
+--------------------------
+- Log, Graph: denote signed tags https://smartgit.userecho.com/communities/1/topics/181-
+- Interactive Rebase: if merge commits were detected in the commits that should be rebased, a warning is shown that they will be flattened (replaced by normal commits)
+- dark theme (Windows): lowered contrast of table header separators, text field borders and menu bar separator
+- (gr)avatar-cache: added low-level property avatar.cache to relocate it
+
+Fixed Bugs
+----------
+- Files view, Index table: states were incorrectly named in Working Tree and Log window
+- Refresh:
+    - internal error if repository is located on drive root
+    - after commands:
+        - inefficient refreshing after performing an operation on a submodule
+        - broken for submodules located on symlinks
+- Log, Graph: with "Follow Only First Parent" option, stash may not be aligned with its base commit but show up at the top of the graph
+- Tree control (macOS): depending on configured selection color white foreground on white background color https://bugs.eclipse.org/bugs/show_bug.cgi?id=558258
+- Conflict Solver: for unselected "Swap ours and theirs" option, left title should be "Rebase target ("ours")"
+- Changes view: unified scrollbar not always updates correctly when selecting a new file
+- .gitconfig: JGit-related lines like 'filesystem "Oracle Corporation|11.0.3-Syntevo|-2078966431"' were added to ~/.gitconfig, now to ~/.jgitconfig
+
+Other Noteworthy Changes
+------------------------
+- Pull (toolbar) operates on the opened repository ignoring the Branches selection:
+    - added low-level property pull.honorRemoteSelection to enable honoring of remote selection in Branches view
+
+
+SmartGit 20.1 Preview 10 (2020-02-13)
+=====================================
+New Features, Improvements
+--------------------------
+- Blame: improved colors for dark theme
+- Changes view: "Could not find submodule commit 'Index'" messge includes now the commit ID
+- Commit message view can be made narrower now
+- Log:
+    - Graph:
+        - hamburger menu: replaced submenus containing two options with checkbox menu items
+        - added hamburger option "Show Graph While Filtering" (replacing low-level property log.graph.graphicalFiltering)
+        - bare repositories: ref-manimulating operations (delete, update ref) are now possible
+        - ref display: made border color themeable (less bright in dark theme)
+    - Files: right-clicking a file in a non-head commit only shows now external tools that operate on that commit
+    - Commit Details view: right-clicking the commit's ID offers to copy full ID
+    - Commit view, Message: support for comment lines (according to core.commentChar if commit.template is configured)
+- Find Object (Ctrl+P):
+    - opening an already open repository simply selects it, keeping the other open repositories open, too
+- Git Flow:
+    - stop operations if fetching of remote branches has actually fetched new commits
+    - Integrate: improved wording for features with custom base branch
+- Submodule, Add: offers "relative URL" for local repositories, too
+- Repositories view: require confirmation dragging >1 repository/directory
+- preferences, Gravatar: added option to clear (disk) cache
+- startup: command line option --blame honors --anchor <commit>
+
+Fixed Bugs
+----------
+- Blame:
+    - internal error if blamed file contains empty commit
+    - internal error if blamed file was deleted and readded
+- Commit view: committing does not reset message and amend if commit succeeded with a warning (e.g. about LF being replaced by CRLF)
+- external tool Fast-Forward Merge: possible warning "too many arguments" for umbiguous refs
+- File monitoring
+    - fix for symlinks in .git-admin area (like the Google repo tool)
+    - possible performance problems in case of many external changes
+- GitLab, Fetch Pull Request: possibly wrong URL composition
+- Gravatar: disabled gravatar.com access did not reuse cached images
+- Log:
+    - Graph:
+        - bare repositories: "Push Up To" was enabled though not applicable
+        - resetting filter might not reveal selected commit with "Follow Only First Parent" option selected
+    - Files:
+        - possible error "missing blob" realted to rename detection in combination with added/remvoed submodules (regression since 19.1)
+        - possible foreground change on mouse-over
+- logger.properties: ignored configured handlers
+- macOS 10.15:
+    - preferences showed wrong page
+
+Other Noteworthy Changes
+------------------------
+- removed support for sourcetree:// URLs because the problems for SourceTree were larger than SmartGit's benefit from cloning easily from BitBucket
+- removed Mercurial support
+
+
+SmartGit 20.1 Preview 9 (2020-01-28)
+====================================
+New Features, Improvements
+--------------------------
+- i18n: Edit | Customize shows menu item names now i18nized
+
+Fixed Bugs
+----------
+- Commit/Stage: fails for modified submodules (regression in 20.1 preview 8)
+- External tools, e.g. Open Git Shell: leaked handles (NamedPipe)
+- SVN:
+    - Clone (Windows): symlink support was not properly detected (SmartGit always assumed that file system did not support symlinks)
+- process shutdown: temp directory was not cleaned up correctly, because it failed to remove read-only files which were created when opening a file compare (internal or external)
+- interactive rebase: might have failed with "unsupported noop line" error
+
+Other Noteworthy Changes
+------------------------
+- preview version: more often checks for new builds
+- GUI:
+    - Files tables: less important columns show values in gray (like macOS Finder does)
+
+
+SmartGit 20.1 Preview 8 (2020-01-22)
+====================================
+New Features, Improvements
+--------------------------
+- Log:
+    - Graph: deleting a local branch should ask for deleting the tracked branch (like in the Branches view)
+    - Files: filter is reset immediately when opening repository
+- Commit, Checkout, Add, Stage:
+    - improved performance by using more efficient API in Git 2.25+
+- Commit view:
+    - Commit reports "git add -- ." in Output, too
+- LFS:
+    - Track: is allowed to be invoked on unchanged files, too (not just untracked ones)
+- Refresh:
+    - Windows: support for Git admin area located on different disk than repository root
+- Working Tree window:
+    - Branches: if pull requests are available a link to open the Log is shown
+- GUI:
+    - Log, Graph: Filter is reset when switching repository
+    - Log, Window | Show Working Tree Window selects current repository
+
+Fixed Bugs
+----------
+- Log:
+    - Commits (Details): fixed performance problem for very large amount of refs
+    - Files:
+        - expensive rename-detection should not delay subsequent operations when switching away from offending commit
+        - Save As stored files read-only
+        - could not open local file in Compare if added file in HEAD commit was selected
+    - Graph:
+        - possible performance problem or OOME after resetting filter with selected old commit
+        - performance problem for old commits with many "On Branches"
+- Changes, Compare and others:
+    - fixed expensive whitespace drawing (especially for very long lines)
+- File Compare:
+    - could not save non-US-ASCII characters if file did not contain some originally
+    - if saving failed, a partly written file remained
+- GUI:
+    - macOS: internal error closing a tree node with children
+    - automatic window placement algorithm failed for windows with larger sizes than the visible area (on Windows 10 the sizes are reported a little bit larger than one would expect it)
+    - Low-level property editor for int: the value was reset silently if value was out of allowed bounds
+- File monitoring (Windows):
+    - fix for repositories located on symlink
+
+Other Noteworthy Changes
+------------------------
+- Windows bundles: updated to Git 2.25
+- helper processes (SSH, credentials) should consume less memory now
+- Pull (toolbar) operates on the opened repository ignoring the Branches selection
+- Setup wizard: changed default for main window style to "Commits (Log History)"
+
+
+SmartGit 20.1 Preview 7 (2020-01-10)
+====================================
+New Features, Improvements
+--------------------------
+- Blame:
+    - reworked code, built upon DeepGit
+    - performance improved
+- Log:
+    - changed default for "log.wt.refreshOpenButUnselectedModels" to "true"
+    - Graph: moved View | Include Tracked Remote Branches into hamburger menu
+- Journal: for merge commits, keep showing stubs instead of + signs because they can't be expanded
+- Gravatar: caches images locally in <settings-dir>/gravatar-cache
+
+Fixed Bugs
+----------
+- Ignore Directory:
+    - internal error invoking on root directory
+    => is now only possible to invoke on untracked directories
+- Log:
+    - Branches: quickly clicking the same checkbox should just toggle the checkbox, but not invoke the double-click command
+    - Files: possible internal error trying to compare 2 files against each other from Index vs. Commit diff
+    - possible interface inconsistencies between Repositories and Graph view when opening multiple repositories at once (regression since 19.1)
+- Refresh:
+    - possible internal error related to missing/untracked files (regression since 19.1)
+    - possible internal error related to unsupported characters in file names
+- Repository | Remove: possible internal error if repository was still open in a different window
+- Stash on Demand: problem with untracked files if "Include Untracked" is not configured in the Preferences
+- Tools: fix buggy "git --defaultsVersion" tool from regression in SmartGit 18.2.3
+- macOS: added workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=551405 (Search text field required double-click to clear)
+- Windows:
+    - SmartGit instance started after an update of the installation directory did not resolve the environment variables correctly
+
+Other Noteworthy Changes
+------------------------
+- reworked update of installation directory, especially on Windows when requiring admin rights (own executable instead of batch script)
+    - more reliable waiting for the end of the SmartGit process
+- macOS:
+    - Graph/Journal: removed support for sophisticated keyboard selection using Cmd (as on Windows/Linux)
+    - changed default Push/Pull commands to more common Cmd+PageUp/Down (instead of Ctrl+PageUp/Down)
+- upgraded SWT to 4.932
+
+
+SmartGit 20.1 Preview 6 (2019-12-13)
+====================================
+Fixed Bugs
+----------
+- Log:
+    - Cherry-picking multiple commits might change order of commits, sometimes causing the operation to fail, sometimes not
+
+Other Noteworthy Changes
+------------------------
+- updates of the SmartGit installation directory also should be allowed on macOS 10.15
+
+
+SmartGit 20.1 Preview 5 (2019-12-12)
+====================================
+New Features, Improvements
+--------------------------
+- Log:
+    - Graph:
+        - collapsed merge commits and collapsed squash commits now show a tiny + sign to indicate the expandability
+        - for 2 selected commits on different branches, the selection order is remembered, so the Files and Changes view show the diff in the requested order
+    - Files:
+        - add option for viewing files recursively (https://smartgit.userecho.com/communities/1/topics/1106-)
+- GitHub integration: more helpful tooltip in case of "Not Found" error (404)
+- GUI
+    - macOS:
+        - keypad-CR (Enter) should trigger the default button
+        - Discard (and other) dialogs: should accept Enter/Return to confirm
+
+Fixed Bugs
+----------
+- Log:
+    - Files:
+        - could show commit files while working working tree node is selected
+    - internal error in File Log when selectin last commit
+- Commit dialog: double-click Compare was always disabled
+- Flow, Integrate Develop: possibly wrong default selection between Finish Feature and Integrate Develop
+- Linux:
+    - Refresh: possible internal error when writing ~/.gitconfig
+- Linux, macOS: possible internal error when opening/working with repository with submodules
+- GUI:
+    - Preferences, Editors, Colors: selecting dark editor them with light SmartGit theme is reset on next startup
+        -> the option to select light/dark editor theme has been removed
+
+Other Noteworthy Changes
+------------------------
+- release has been renamed to 20.1
+- Windows installer: uninstall the previous version before installing the new one
+
+
+SmartGit 19.2 Preview 4 (2019-11-19)
+====================================
+New Features, Improvements
+--------------------------
+- Commit view: warn if trying to commit while no branch is checked out
+- Copy ID:
+    - by default, copy short ID (to get long, set copyID.copyFull to true)
+    - set copyID.useUppercase to true to copy with uppercase letters
+- Discard: don't offer abort-rebase confirmation if a non-root directory has been selected
+- Edit Commit Message: support for file completion of the commit's files
+- Log:
+    - Commit (Details): ability to change the line separator used for separating different values (log.details.headerValueSeparator)
+    - Graph:
+        - Follow Only First Parent works now on Git data instead of already layouted graph, resolving various problems
+    - Files:
+        if no or more than 2 graph lines are selected, an informational text is shown
+    - Select Parent/Child: works also if focus is outside the Graph view
+
+Fixed Bugs
+----------
+- Changes:
+    - color may sometimes switch between modified and added
+    - Compact display: unexpected "skipped" lines in added blocks
+- Compare:
+    - forgot some options when using "Remember as Default"
+- Log:
+    - Changes: still showed changes while no file was selected
+    - Commit:
+        - comments used wrong background color with dark theme
+        - quickly clicking Commit button created 2 commits, the second without changes
+    - Files: selection unexpectedly growed after certain operations
+    - Graph:
+        - Filter:
+            - flicking while typing
+            - possible inefficient processing for certain graph-filter-combinations
+        - possible redundant WT refresh
+        - with dark theme multi-ref boxes were drawn with wrong color
+- Nio: various crashes related to invalid path representations
+- Splitted Files view:
+    - possible internal error for certain file states
+- Startup: for --investigate and --blame the optional line number suffix (<filename>:<linenumber>) was broken
+- Linux:
+    - Compare shows dark background until a file is selected when using Yaru theme
+
+
+SmartGit 19.2 Preview 3 (2019-10-25)
+====================================
+New Features, Improvements
+--------------------------
+- Branches:
+    - Copy Message: for tag messages and stash comments
+- Gerrit:
+    - detection will consider review.remote configuration
+    - denote target remote in dialog
+- Files:
+    - Filter input field:
+        - Regular Expression also searches inside a string unless ^ or $ are used
+        - Regular Expression matches against full path (instead of name) only if a slash was found in the search pattern (like for non-regex search, too)
+- Log:
+    - Creating and checking out a new branch from a remote branch (in the Branches view) also scrolls to the new branch in the Graph
+- Rebase:
+    - for conflicts the (conflicting) message is now not loaded into the Commit view any more (caused only confusion, because the rebase command should proceeded with Continue, not Commit)
+- Split Working Tree and Index tables:
+    - can be tuned with low-level properties files.split.vertical and files.split.workingTreeBeforeIndex
+- macOS 10.14: switching the SmartGit theme set the required org.eclipse.swt.useSystemTheme property automatically
+
+Fixed Bugs
+----------
+- Log:
+    - Changes: a single staged file did not show changes
+    - Graph:
+        - on macOS and Linux the context menu commands operated on previous selection
+    - Refresh:
+        - possible internal error if the repository contained multiple shallow commits
+        - problems were not reported, just logged
+- Compare, Index Editor and others: some commands might been enabled (and consequently triggered) even if not applicable causing internal errors
+- Compare with Each Other: used wrong, configured Diff tool (for different file types)
+- Investigate: toggling Line History caused broken layout
+- Cherry-pick/Revert, Abort: uses "git cherry-pick --abort"/"git revert --abort" now instead of "git reset --hard"
+  (it might be necessary to first discard all local changes, because the --abort commands can't cope with them - but it should be more safe now)
+- Split Working Tree and Index tables:
+    - fixed several bugs, improved selection/focus handling
+- Upgrade: some files in the "updater" directory might remain after an upgrade
+
+Other Noteworthy Changes
+------------------------
+- In-place Application Update: more reliable way to detect whether application is closed
+- Save Stash uses always "git stash push" instead of the deprecated "git stash save"
+- Windows: uses native launcher to open files in registered application (instead of rundll32.exe or cmd.exe which cause different problems)
+- upgraded SWT library to v4930r5
+    - fixing tree-related massive flickering on Linux
+
+
+SmartGit 19.2 Preview 2 (2019-10-11)
+====================================
+New Features, Improvements
+--------------------------
+- Log window:
+    - Graph view:
+        - display Working Tree/Index node directly at HEAD commit (use low-level property log.graph.showWtNodesTopmost to get old behavior)
+        - display single instead of separate nodes for Working Tree and Index changes
+    - Files view:
+        - optionally show Index and Working Tree files in 2 tables
+        - removed option Show Staged Changes - these purely staged changes can now easily be found in the Index table
+    - Commit (Details) view:
+        - shows real parent SHAs for File/Subtree logs, not 'visual parents'
+- Working Tree window:
+    - Files view: replaced "View | Only Index" and "View | Only Working Tree" with option to show Index and Working Tree files in 2 tables
+    - removed option Show Staged Changes - these purely staged changes can now easily be found in the Index table
+- Journal/Log Graph views: show full author by default
+
+Fixed Bugs
+----------
+- Compare: possible internal error (regression)
+- Refresh:
+    - may fail (silently) in case of non-UTF-8 encoding used in .git/config (regression)
+- Ubuntu 19.04: Delete to Trash was considered as non-supported if no files were trashed before (if no ~/.local/share/Trash/files/ directory existed)
+
+Other Noteworthy Changes
+------------------------
+- macOS 10.15: updating the installation directory seems not to work any more (sandboxed read-only file system), so only light-weight updates are possible automatically (like for DEB bundle on Linux)
+  (maybe we'll find a better solution in the future)
+
+
+SmartGit 19.2 Preview 1 (2019-09-30)
+====================================
+New Features, Improvements
+--------------------------
+- Branches view: add option to show sections (groups) first
+  https://smartgit.userecho.com/communities/1/topics/996-
+- Dark theme: Log graph shows refs also in dark mode
+- File filter: support searching by word parts
+  https://smartgit.userecho.com/communities/1/topics/993-
+- Filter input fields: removed limit of up to 10 stored filters
+  http://smartgit.userecho.com/communities/1/topics/1005-
+- Interactive Rebase: preserves empty commits
+- Log, Graph:
+    - Filtering:
+        - optimized redundant merges
+        - branches and tags only are shown if they point at the found commit
+- Output view:
+    - for long outputs first lines are discarded unless they are warning
+- Repositories view:
+    - Move group to another group
+- Performance/memory:
+    - Compare/Changes view: several performance improvements
+    - reduced memory consumption for loaded repositories (several changes)
+    - Refresh:
+        - added low-level property core.tags.loadDetails to disable possible expensive access to object database
+        - Log, Graph:
+            - faster initial loading
+            - faster refreshing
+- Squash Commits: added low-level property squash.selectOldestDate to preselect oldest date
+- Stage/Unstage: optionally stage/unstage all files recursively
+- UI:
+    - larger buttons:
+        - Commit view: Commit
+        - Graph view: Continue, Abort, ...
+- Worktree: added 'git worktree remove'
+
+Fixed Bugs
+----------
+- Bisect: did not show command output
+- Changes view: for missing submodule commit, commit ID could not be displayed
+- Push: duplicated displayed warnings after command execution
+- Log:
+    - Graph: filter input field was not considered as belonging to view
+    - Refresh: fake "missing" files should not be reported when using "core.ignoreCase=true" on a case-sensitive file system
+- macOS: fixed (invisible) internal errors on exit
+
+Other Noteworthy Changes
+------------------------
+- macOS bundle notarized
