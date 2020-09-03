@@ -17,7 +17,7 @@ def get_markers(lines, **kwargs):
     return markers
     
 if __name__ == '__main__':
-    with open('P_P.txt') as f:
+    with open('data/P_P.txt') as f:
         lines = f.readlines()
         
     lines = list(map(str.rstrip, lines))
@@ -27,7 +27,7 @@ if __name__ == '__main__':
     #                      'website' = 'Free eBooks at Planet eBook.com'}
     #markers = get_markers(lines, **d)
     markers = get_markers(lines, 
-                          title = 'Pride and Prejudice', 
+                          title = 'Sense and Sensibility',
                           chapter_style = 'Chapter', 
                           website = 'Free eBooks at Planet eBook.com')
     
