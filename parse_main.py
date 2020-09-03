@@ -42,14 +42,14 @@ def load_file(filename):
 
 if __name__ == '__main__':
     exclude_target = ['mr', 'ms', 'mrs', 'etc']
-    special_char = ['-', '‘',]
+    special_char = ['-', '‘', '.']
     special_char_with_blank = ['.', '!', '?', ';', ',', '’', ':']
-    filename = 'P_P'
+    filename = 'S_S'
     contents = parse(f'{filename}.txt',
                      exclude_target,
                     {
                     'split': '* * * * *',
-                    'title': 'Pride and Prejudice',
+                    'title': 'Sense and Sensibility',
                     'chapter': 'Chapter',
                     'website': 'eBook.com',
                     },
