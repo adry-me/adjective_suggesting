@@ -22,8 +22,8 @@ def _search_and_replace(words, target_list, req_blank=False):
             if target in word:
                 index = word.find(target)
                 if req_blank and (index == len(word) - 1 or word[index + 1] == ' '):
-                    words[i] = word.replace(target, '')
+                    words[i] = word.replace(target, ' ')
                 else:
-                    words[i] = word.replace(target, '')
+                    words[i] = word.replace(target, ' ')
                     
     return words

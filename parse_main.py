@@ -41,22 +41,14 @@ def load_file(filename):
 
 
 if __name__ == '__main__':
-    exclude_target = ['mr', 'ms', 'mrs', 'etc']
-    special_char = ['-', '‘', '.']
-    special_char_with_blank = ['.', '!', '?', ';', ',', '’', ':']
-    filename = 'S_S'
-    contents = parse(f'{filename}.txt',
-                     exclude_target,
-                    {
-                    'split': '* * * * *',
-                    'title': 'Sense and Sensibility',
-                    'chapter': 'Chapter',
-                    'website': 'eBook.com',
-                    },
-                    special_char,
-                    special_char_with_blank,
-                    save=True,
-                    save_path='P_P_mod.txt'
+    from data.settings import M_P as SETTING
+    contents = parse(f'data/{SETTING.filename}.txt',
+                     SETTING.exclude_target,
+                     SETTING.marker_options,
+                     SETTING.special_char,
+                     SETTING.special_with_blank,
+                     save=True,
+                     save_path=f'data/{SETTING.filename}_mod.txt'
                      )
 
     for content in contents:
