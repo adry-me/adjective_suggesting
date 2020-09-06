@@ -15,18 +15,15 @@ def get_markers(lines, **kwargs):
                 
     markers.sort(reverse=True)
     return markers
-    
+
+
 if __name__ == '__main__':
     with open('data/P_P.txt') as f:
         lines = f.readlines()
         
     lines = list(map(str.rstrip, lines))
-    
-    #d = {'title' = 'Pride and Prejudice', 
-    #                      'chapter_style' = 'Chapter', 
-    #                      'website' = 'Free eBooks at Planet eBook.com'}
-    #markers = get_markers(lines, **d)
-    markers = get_markers(lines, 
+
+    markers = get_markers(lines,
                           title = 'Sense and Sensibility',
                           chapter_style = 'Chapter', 
                           website = 'Free eBooks at Planet eBook.com')

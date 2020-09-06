@@ -6,6 +6,17 @@ if __name__ == '__main__':
     contents.extend(load_file('data/P_P_mod.txt'))
     contents.extend(load_file('data/S_S_mod.txt'))
     contents.extend(load_file('data/M_P_mod.txt'))
+    contents.extend(load_file('data/Emma_mod.txt'))
+    contents.extend(load_file('data/W_P1_mod.txt'))
+    contents.extend(load_file('data/W_P2_mod.txt'))
+#    contents.extend(load_file('data/W_P3_mod.txt'))
+#    contents.extend(load_file('data/W_P4_mod.txt'))
+    contents.extend(load_file('data/W_P5_mod.txt'))
+    contents.extend(load_file('data/A_K1_mod.txt'))
+    contents.extend(load_file('data/A_K2_mod.txt'))
+    contents.extend(load_file('data/A_K3_mod.txt'))
+    contents.extend(load_file('data/A_K4_mod.txt'))
+    contents.extend(load_file('data/Meta_mod.txt'))
 
     from nltk.corpus import movie_reviews
     mv_sentences = [list(s) for s in movie_reviews.sents()]

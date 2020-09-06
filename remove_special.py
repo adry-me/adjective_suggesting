@@ -5,6 +5,7 @@ Created on Sun Aug 30 12:12:58 2020
 @author: Daniel Shin
 """
 
+
 def remove_special(lines, special, special_blank):
     for i, line in enumerate(lines):
         words = line.split()
@@ -15,6 +16,7 @@ def remove_special(lines, special, special_blank):
         lines[i] = ' '.join(words)
 
     return lines
+
 
 def _search_and_replace(words, target_list, req_blank=False):
     for i, word in enumerate(words):

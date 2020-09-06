@@ -41,7 +41,7 @@ def load_file(filename):
 
 
 if __name__ == '__main__':
-    from data.settings import M_P as SETTING
+    from data.settings import T_TC as SETTING
     contents = parse(f'data/{SETTING.filename}.txt',
                      SETTING.exclude_target,
                      SETTING.marker_options,
