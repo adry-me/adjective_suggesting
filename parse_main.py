@@ -11,8 +11,8 @@ from remove_special import remove_special
 from merge_lines import merge
 
 
-def parse(filename, exclude_target: list, marker_options: dict, special_char, special_with_blank, save=False,  save_path=None):
-    lines = load_file(filename)
+def parse(filename, exclude_target: list, marker_options: dict, special_char, special_with_blank, save=False,  save_path=None, encoding='utf-8'):
+    lines = load_file(filename, encoding)
     markers = get_markers(lines, **marker_options)
     lines = concatenate(lines, markers)
 
@@ -30,8 +30,8 @@ def parse(filename, exclude_target: list, marker_options: dict, special_char, sp
     return lines
 
 
-def load_file(filename):
-    with open(filename) as f:
+def load_file(filename, encoding='utf-8'):
+    with open(filename, encoding=encoding) as f:
         lines = f.readlines()
 
     lines = list(map(str.rstrip, lines))
@@ -41,14 +41,15 @@ def load_file(filename):
 
 
 if __name__ == '__main__':
-    from data.settings import T_TC as SETTING
+    from data.settings import G_E as SETTING
     contents = parse(f'data/{SETTING.filename}.txt',
                      SETTING.exclude_target,
                      SETTING.marker_options,
                      SETTING.special_char,
                      SETTING.special_with_blank,
                      save=True,
-                     save_path=f'data/{SETTING.filename}_mod.txt'
+                     save_path=f'data/{SETTING.filename}_mod.txt',
+                     encoding=SETTING.encoding
                      )
 
     for content in contents:

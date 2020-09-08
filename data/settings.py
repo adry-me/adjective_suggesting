@@ -1,10 +1,12 @@
 class Setting:
-    def __init__(self, filename, exclude_target=None, marker_options=None, special_char=None, special_with_blank=None):
+    def __init__(self, filename, exclude_target=None, marker_options=None,
+                 special_char=None, special_with_blank=None, encoding=None):
         self.filename = filename
         self.exclude_target = exclude_target if exclude_target is not None else []
         self.marker_options = marker_options if marker_options is not None else {}
         self.special_char = special_char if special_char is not None else []
         self.special_with_blank = special_with_blank if special_with_blank is not None else []
+        self.encoding = encoding if encoding is not None else 'utf-8'
 
 
 P_P = Setting(
@@ -16,8 +18,8 @@ P_P = Setting(
         'chapter': 'Chapter',
         'website': 'eBook.com',
     },
-    special_char=['-', '‘', '.'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':']
+    special_char=['—', '‘', '.', '“', '-'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”']
 )
 
 S_S = Setting(
@@ -29,8 +31,8 @@ S_S = Setting(
         'chapter': 'Chapter',
         'website': 'eBook.com',
     },
-    special_char=['-', '‘', '.', '—', ';—'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':']
+    special_char=['-', '‘', '.', '—', ';—', '“', '’', '—'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”']
 )
 
 M_P = Setting(
@@ -39,8 +41,8 @@ M_P = Setting(
     marker_options={
         'chapter': 'Chapter'
     },
-    special_char=['-', '‘', '.'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':']
+    special_char=['-', '‘', '.', '“', ';—', '"'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”', '"']
 )
 
 Emma = Setting(
@@ -50,8 +52,8 @@ Emma = Setting(
         'chapter': 'Chapter',
         'volume': 'Volume'
     },
-    special_char=['-', '‘', '.'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':']
+    special_char=['-', '‘', '.', '“', '—'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”', '—']
 )
 
 W_P1 = Setting(
@@ -61,8 +63,8 @@ W_P1 = Setting(
         'book': 'Book',
         'chapter': 'Chapter'
     },
-    special_char=['-', '‘', '.', '—', '(', ')'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':', ')', '—']
+    special_char=['-', '‘', '.', '—', '(', ')', '“', '"'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', ')', '—', '”', '"']
 )
 
 W_P2 = Setting(
@@ -72,8 +74,8 @@ W_P2 = Setting(
         'book': 'Book',
         'chapter': 'Chapter'
     },
-    special_char=['-', '‘', '.', '—', '(', ')'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':', ')', '—']
+    special_char=['-', '‘', '.', '—', '(', ')', '“', '"'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', ')', '—', '”', '"']
 )
 
 W_P3 = Setting(
@@ -83,8 +85,8 @@ W_P3 = Setting(
         'book': 'Book',
         'chapter': 'Chapter'
     },
-    special_char=['-', '‘', '.', '—', '(', ')'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':', ')', '—']
+    special_char=['-', '‘', '.', '—', '(', ')', '“', '"'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', ')', '—', '”', '"']
 )
 
 W_P4 = Setting(
@@ -94,8 +96,8 @@ W_P4 = Setting(
         'book': 'Book',
         'chapter': 'Chapter'
     },
-    special_char=['-', '‘', '.', '—', '(', ')'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':', ')', '—']
+    special_char=['-', '‘', '.', '—', '(', ')', '“', '"'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', ')', '—', '”', '"']
 )
 
 W_P5 = Setting(
@@ -105,8 +107,8 @@ W_P5 = Setting(
         'book': 'Book',
         'chapter': 'Chapter'
     },
-    special_char=['-', '‘', '.', '—', '(', ')'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':', ')', '—']
+    special_char=['-', '‘', '.', '—', '(', ')', '“', '"'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', ')', '—', '”', '"']
 )
 
 A_K1 = Setting(
@@ -115,8 +117,8 @@ A_K1 = Setting(
     marker_options={
         'chapter': 'Chapter'
     },
-    special_char=['-', '‘', '.'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':']
+    special_char=['-', '‘', '.', '“', '—'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”', '—']
 )
 
 A_K2 = Setting(
@@ -125,8 +127,8 @@ A_K2 = Setting(
     marker_options={
         'chapter': 'Chapter'
     },
-    special_char=['-', '‘', '.'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':']
+    special_char=['-', '‘', '.', '“', '—'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”', '—']
 )
 
 A_K3 = Setting(
@@ -135,8 +137,8 @@ A_K3 = Setting(
     marker_options={
         'chapter': 'Chapter'
     },
-    special_char=['-', '‘', '.'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':']
+    special_char=['-', '‘', '.', '“', '—'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”', '—']
 )
 
 A_K4 = Setting(
@@ -145,8 +147,8 @@ A_K4 = Setting(
     marker_options={
         'chapter': 'Chapter'
     },
-    special_char=['-', '‘', '.'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':']
+    special_char=['-', '‘', '.', '“', '—'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”', '—']
 )
 
 Meta = Setting(
@@ -158,8 +160,8 @@ Meta = Setting(
         'chapter': 'Chapter',
         'website': 'eBook.com',
     },
-    special_char=['-', '‘', '.'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':']
+    special_char=['-', '‘', '.', '“'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”']
 )
 
 Sh_St = Setting(
@@ -170,8 +172,8 @@ Sh_St = Setting(
         'chapter': 'Chapter',
         'translation': 'Translated by'
     },
-    special_char=['-', '‘', '.'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':']
+    special_char=['-', '‘', '.', '“', '"'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”', '"']
 )
 
 Amerika = Setting(
@@ -181,7 +183,8 @@ Amerika = Setting(
         'translation': 'Translated by'
     },
     special_char=['‘', '.', '“', '.', '!', '?', ',', '-'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”']
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”'],
+    encoding='latin-1'
 )
 
 T_C = Setting(
@@ -190,8 +193,8 @@ T_C = Setting(
     marker_options={
         'chapter': 'Chapter'
     },
-    special_char=['‘', '.', '“', '.', '!', '?', ',', '-'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”']
+    special_char=['‘', '.', '“', '.', '!', '?', ',', '-', '"'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”', '"']
 )
 
 L_F = Setting(
@@ -200,8 +203,8 @@ L_F = Setting(
     marker_options={
         'chapter': 'Chapter'
     },
-    special_char=['‘', '.', '“', '.', '!', '?', ',', '-'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”']
+    special_char=['‘', '.', '“', '.', '!', '?', ',', '-', '—', '"'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”', '"']
 )
 
 M_ND = Setting(
@@ -303,8 +306,8 @@ O_T = Setting(
         'chapter': 'Chapter',
         'website': 'eBook.com',
     },
-    special_char=['-', '‘', '.'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':']
+    special_char=['-', '‘', '.', '“'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”', '']
 )
 
 G_E = Setting(
@@ -316,8 +319,8 @@ G_E = Setting(
         'chapter': 'Chapter',
         'website': 'eBook.com',
     },
-    special_char=['-', '‘', '.'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':']
+    special_char=['-', '‘', '.', '“', '(', ')'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”', '', '(', ')']
 )
 
 C_C = Setting(
@@ -327,19 +330,19 @@ C_C = Setting(
         'stave': 'STAVE',
         'title': 'A CHRISTMAS CAROL'
     },
-    special_char=['-', '‘', '.'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':']
+    special_char=['-', '‘', '.', '“'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', '”', ':']
 )
 
 T_TC = Setting(
-    filename='C_C',
+    filename='T_TC',
     exclude_target=['mrs', 'mr', 'ms', 'etc'],
     marker_options={
         'title': 'A T A L E O F T W O C I T I E S',
         'chapter': 'Chapter'
     },
-    special_char=['-', '‘', '.'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':']
+    special_char=['-', '‘', '.', '“', '(', ')', '—'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”', '(', ')', '—']
 )
 
 A_B = Setting(

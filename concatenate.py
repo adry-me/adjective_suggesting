@@ -13,7 +13,7 @@ def concatenate(lines, markers):
         prev = lines[marker - 1].split()
         post = lines[marker + 1].split()
         
-        if prev[-1][-1] == '-':
+        if len(prev) > 0 and prev[-1][-1] == '-' and len(post) > 0:
             prev[-1] = prev[-1][:-1] + post[0]
             post.pop(0)
             
