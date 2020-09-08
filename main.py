@@ -1,12 +1,18 @@
-from parse_main import load_file
-from nlp.nlp_main import lines_to_sentences, word2vec, analyze_text
+from Parser.parse_main import load_file
+from nlp.nlp_main import lines_to_sentences, word2vec
+from gensim.models import Word2Vec
 from crawler.crawl_main import get_synonym
 import os
 
 
 class W2VModel:
-    def __init__(self, contents):
+    def __init__(self, contents, model_path):
         sentences = lines_to_sentences(contents)
+        if os.path.exists(model_path):
+            self.model = Word2Vec.load(model_path)
+        else:
+            self.model = word2vec(sentences)
+            self.model.save(model_path)
         self.model = word2vec(sentences)
         self.contents = contents
 
@@ -26,34 +32,39 @@ def collect_all(suffix='_mod'):
 
 def create_model(suffix='_mod'):
     contents = collect_all(suffix)
-    sentences = lines_to_sentences(contents)
-    model = W2VModel(contents)
+    model = W2VModel(contents, f'model/{model_name}.embedding')
 
     return model
 
 
 if __name__ == '__main__':
+    from nltk.corpus import wordnet
+
     w2v_model = create_model()
     w2v = w2v_model.model
     vocabs = list(w2v.wv.vocab.keys())
 
-    import random
+    sentence = 'there was a great deal more that was delightful'
+    sentence = sentence.lower()
 
-    for _ in range(10):
-        word1 = vocabs[random.randint(0, len(vocabs) - 1)]
-        word2 = vocabs[random.randint(0, len(vocabs) - 1)]
-        sim = w2v.wv.similarity(word1, word2)
-        print(word1, word2, sim)
+    adj = []
 
-    word = 'happy'
-    syn_list = []
+    for word in sentence.split():
+        for synset in wordnet.synsets(word):
+            if word in str(synset) and '.a.' in str(synset):
+                if word not in adj:
+                    adj.append(word)
 
-    syn_list.extend(get_synonym(word)[:5])
-    for i in range(3):
-        syn_list.extend(get_synonym(w2v.wv.most_similar(word)[i][0])[:5])
+    print(adj)
 
-    adj_list, count = analyze_text(w2v_model.get_combined_text())
+    for word in adj:
+        synonyms = []
 
-    for syn in syn_list:
-        if syn in adj_list:
-            print(syn, count[syn])
+        if word in vocabs:
+            similar = w2v.wv.most_similar(word)
+            synonyms.extend(get_synonym(word))
+            for i in range(min(5, len(similar))):
+                synonyms.extend(get_synonym(similar[i][0]))
+
+        for syn in synonyms:
+            print(sentence.replace(word, syn))

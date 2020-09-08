@@ -16,8 +16,13 @@ def valid_entry_check(entry):
 
 def get_synonym(entry):
     result = []
+
     if True:
-        response = urlopen(f'http://www.thesaurus.com/browse/{entry}')
+        from urllib.error import HTTPError
+        try:
+            response = urlopen(f'http://www.thesaurus.com/browse/{entry}')
+        except HTTPError:
+            return result
         html = response.read().decode('utf-8')
         soup = BeautifulSoup(html, 'lxml')
 
