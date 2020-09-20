@@ -1,0 +1,45 @@
+.GeneratedContentsMainContainer {
+    margin: 50px;
+    padding: 30px;
+}
+
+
+.return-button-container {
+    display: flex;
+    justify-content: flex-end;
+
+    margin-top: 10px;
+}
+
+.return-button {
+    height: 40px;
+    width: 150px;
+}
+
+.generate-row-container {
+    display: flex;
+    justify-content: space-evenly;
+
+    border: rgba(0, 0, 0, 0.05) solid 2px;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.final-recommendation-message {
+    display: flex;
+    justify-content: center;
+
+    padding-top: 10px;
+    padding-bottom: 5px;
+
+    border-bottom: black solid 1px;
+
+    margin-bottom: 10px;
+}
+
+.final-recommendation-message p {
+    font-size: 24px;
+    font-weight: bold;
+    font-style: italic;
+}

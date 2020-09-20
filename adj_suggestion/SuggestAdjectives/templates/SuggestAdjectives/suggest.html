@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adjective Suggestion</title>
+    {% include 'SuggestAdjectives/libs.html' %}
+    {% load static %}
+    <script type="text/javascript" src="{% static '/js/suggest.js' %}"></script>
+</head>
+<body class="bg-light">
+    {% load dict_key %}
+    <form method="post" action="{% url 'SuggestAdjectives:Generated' %}">
+        {% csrf_token %}
+        <div class="SuggestContentsMainContainer bg-white rounded-box shadow-box">
+            <div class="SuggestContentsMainContainer">
+                <div class="suggest-row-container header">
+                    <div class="suggest-col-container">
+                        <p>Original</p>
+                    </div>
+                    <div class="suggest-col-container">
+                        <p>Adjective</p>
+                    </div>
+                    <div class="suggest-col-container">
+                        <p>Suggested</p>
+                    </div>
+                </div>
+            </div>
+            {% for line, adj_dict in generated.items %}
+                {% for adj, sentences in adj_dict.items %}
+                <div class="suggest-row-container">
+                    <div class="suggest-col-container">
+                        <p>
+                            {% if forloop.counter0 == 0 %}
+                            {{ line }}
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="suggest-col-container">
+                        <p>{{ adj }}</p>
+                    </div>
+                    <div class="suggest-col-container sentence-col">
+                    {% for sentence in sentences %}
+                        <p>{{ sentence }}</p>
+                    {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% endfor %}
+
+        <div class="GenerateButtonContainer">
+            <input type="submit" class="button generate-button" value="Generate">
+        </div>
+        </div>
+    </form>
+</body>
+</html>
+
+{% comment %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adjective Suggestion</title>
+    {% include 'SuggestAdjectives/libs.html' %}
+    {% load static %}
+    <script type="text/javascript" src="{% static '/js/suggest.js' %}"></script>
+</head>
+<body class="bg-light">
+    {% load dict_key %}
+    <form method="post" action="{% url 'SuggestAdjectives:Generated' %}">
+        {% csrf_token %}
+        <div class="SuggestContentsMainContainer bg-white rounded-box shadow-box">
+            <div class="SuggestContentsMainContainer">
+                <div class="suggest-row-container header">
+                    <div class="suggest-col-container">
+                        <p>Original</p>
+                    </div>
+                    <div class="suggest-col-container">
+                        <p>Adjective</p>
+                    </div>
+                    <div class="suggest-col-container">
+                        <p>Suggested</p>
+                    </div>
+                </div>
+            </div>
+            {% for line, adj_dict in generated.items %}
+                {% for adj, sentences in adj_dict.items %}
+                <div class="suggest-row-container">
+                    <div class="suggest-col-container">
+                        <p>
+                            {% if forloop.counter0 == 0 %}
+                            {{ line }}
+                            <input type="hidden" name="{{ num }}" value="{{ line }}">
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="suggest-col-container">
+                        <p>{{ adj }}</p>
+                    </div>
+                    <div class="suggest-col-container sentence-col">
+                    {% with num=forloop.counter %}
+                        {% if adj.forloop.counter0|length == 0 %}
+                            <p>No suggestions</p>
+                        {% else %}
+                            {% for sentence in sentences %}
+                                <p>{{ sentence }}</p>
+                                {% if forloop.counter == 1 %}
+                                <input type="hidden" name="{{ num }}" value="{{ sentence }}">
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% endfor %}
+
+        <div class="GenerateButtonContainer">
+            <input type="submit" class="button generate-button" value="Generate">
+        </div>
+        </div>
+    </form>
+</body>
+</html>
+<div class="suggest-col-container">
+                                    {% with num=forloop.counter %}
+                                    {% if suggested|index:forloop.counter0|length == 0 %}
+                                        <p>No suggestions</p>
+                                        <input type="hidden" name="{{ num }}" value="{{ ori }}">
+                                    {% else %}
+                                        {% for suggest in suggested|index:forloop.counter0 %}
+                                        <p>{{ suggest }}</p>
+                                            {% if forloop.counter == 1 %}
+                                            <input type="hidden" name="{{ num }}" value="{{ suggest }}">
+{% endcomment %}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% include 'SuggestAdjectives/libs.html' %}
+</head>
+<body class="bg-light">
+    <form method="post" action="{% url 'SuggestAdjectives:Suggest' %}">
+        {% csrf_token %}
+        <div class="InputContentsMainContainer bg-white rounded-box shadow-box">
+            <h1>Enter your text</h1>
+            <div class="TextAreaContainer">
+                <label>
+                    <textarea name="input-text" class="input-box"></textarea>
+                </label>
+            </div>
+            <div class="SubmitButtonContainer">
+                <input type="submit" class="button submit-button" value="SUGGEST">
+            </div>
+        </div>
+    </form>
+</body>
+</html>

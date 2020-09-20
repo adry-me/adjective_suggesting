@@ -1,0 +1,30 @@
+.InputContentsMainContainer {
+    margin: 50px;
+    padding: 30px;
+}
+
+.input-box {
+    height: 500px;
+    width: 99.5%;
+    border-radius: 4px;
+    border: solid #ced4da;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+
+    font-family: 'Alegreya', serif;
+    font-size: 24px;
+}
+
+.TextAreaContainer {
+    margin-top: 20px;
+}
+
+.submit-button {
+    height: 40px;
+    width: 140px;
+}
+
+.SubmitButtonContainer {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+}

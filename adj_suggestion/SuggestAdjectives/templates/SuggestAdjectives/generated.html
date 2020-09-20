@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% include 'SuggestAdjectives/libs.html' %}
+</head>
+<body class="bg-light">
+    <div class="GeneratedContentsMainContainer bg-white rounded-box shadow-box">
+        <div class="final-recommendation-message">
+            <p>Final Recommendation</p>
+        </div>
+        {% for gen_sent in generated %}
+        <div class="generate-row-container">
+            <p>{{ gen_sent }}</p>
+        </div>
+        {% endfor %}
+        <a href="{% url 'SuggestAdjectives:InputContents' %}">
+            <div class="return-button-container">
+                <div class="button return-button">
+                    <p>Return to main</p>
+                </div>
+            </div>
+        </a>
+    </div>
+</body>
+</html>

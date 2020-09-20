@@ -1,0 +1,42 @@
+.SuggestContentsMainContainer {
+    margin: 50px;
+    padding: 30px;
+}
+
+.suggest-row-container {
+    display: flex;
+    justify-content: space-evenly;
+
+    border-bottom: rgba(0, 0, 0, 0.05) solid 1px;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.suggest-col-container {
+    width: 200px;
+}
+
+.suggest-col-container p {
+    margin-bottom: 5px;
+}
+
+.header {
+    border-bottom: black solid 1px !important;
+}
+
+.header p {
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.GenerateButtonContainer {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.generate-button {
+    width: 100px;
+    height: 30px;
+}
