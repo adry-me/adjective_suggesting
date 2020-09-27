@@ -46,12 +46,16 @@ def _get_html(word):
 
 def _parse_thesaurus_div(div):
     ul = div.find('ul')
+    if ul is None:
+        return []
     li_list = ul.find_all('li')
     words = {}
     css_keys = []
 
     for li in li_list:
         a_tag = li.find('a')
+        if a_tag is None:
+            continue
         class_name = ' '.join(a_tag.attrs.get('class', ['EMPTY_CLASS']))
         if class_name not in css_keys:
             css_keys.append(class_name)
@@ -107,4 +111,4 @@ def get_antonyms(entry):
     return ant
 
 if __name__ == '__main__':
-    _parse_soup(_get_html('good'))
+    _parse_soup(_get_html('away'))

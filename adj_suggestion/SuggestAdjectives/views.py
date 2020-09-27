@@ -1,7 +1,11 @@
 from django.shortcuts import render
-from .models import Synonyms
+from .models import Adjective
+from .create_dictionary import save
 import os
+from pathlib import Path
 import sys
+root = Path(__file__).parent.parent.parent
+
 sys.path.append(os.path.dirname(
     os.path.abspath(
         os.path.dirname(
@@ -14,6 +18,7 @@ sys.path.append(os.path.dirname(
     )
 ))
 import main
+from nlp.synonymgenerator import SynonymGenerator
 
 
 # Create your views here.
@@ -33,25 +38,55 @@ def suggest(request):
         input_text_raw = request.POST.get('input-text', '')
         lines = list(map(str.rstrip, input_text_raw.split('\n')))
 
-        p = os.getcwd()
-        os.chdir('C:/Users/Daniel Shin/Desktop/Audrey')
+        os.chdir(root)
 
         w2v_model = main.create_model()
         syn_gen_list = []
 
         for line in lines:
-            adj_list = main.parse_input(line)
+            adj_list = []
+
+            for word in line.split():
+                if len(Adjective.objects.filter(word=word)) > 0:
+                    adj_list.append(word)
             for adj in adj_list:
-                # TODO: load syn_gen from Model
-                syn_gen_list.append(main.find_syn_adj(line, adj, w2v_model))
+                adj_objects = Adjective.objects.filter(word=adj)
+                # if len(adj_objects) == 0:
+                #     syn_gen = main.find_syn_adj(line, adj, w2v_model)
+                #     syn_gen_list.append(syn_gen)
+                #     adj_object = Adjective(word=adj)
+                #     adj_object.save()
+                #     syn_objects = save(syn_gen.synonyms)
+                #     for syn_obj in syn_objects:
+                #         adj_object.synonyms.add(syn_obj)
+                # else:
+                adj_object = adj_objects[0]
+                synonyms = [syn.word for syn in adj_object.synonyms.all()]
+                syn_gen = SynonymGenerator.load(line, adj, synonyms)
+                syn_gen_list.append(syn_gen)
+
+            words = line.split()
+            line_split = []
+            was_adj = True
+            for word in words:
+                if word in adj_list:
+                    line_split.append(word)
+                    was_adj = True
+                else:
+                    if was_adj:
+                        line_split.append(word)
+                    else:
+                        line_split[-1] += ' ' + word
+                    was_adj = False
+            original_lines.append(line_split)
 
         for syn_gen in syn_gen_list:
             if syn_gen.line not in generated_sentences:
                 generated_sentences[syn_gen.line] = {}
 
-            generated_sentences[syn_gen.line][syn_gen.adj] = syn_gen.generate()
+            generated_sentences[syn_gen.line][syn_gen.adj] = syn_gen.synonyms
 
-        os.chdir(p)
+        os.chdir(root)
 
 
     return render(request, 'SuggestAdjectives/suggest.html',
@@ -63,17 +98,30 @@ def suggest(request):
 
 
 def generated(request):
+    original_sentences = []
     generated_sentences = []
     if request.method == 'POST':
-        target = 1
-        while True:
-            sentence = request.POST.get(str(target), None)
-            if sentence is None:
-                break
+        post = request.POST
+        sentence_keys = [key for key in post.keys() if 'sentence-' in key]
+        for sk in sentence_keys:
+            sentence_num = sk.split("-")[-1]
+            sentence = post.get(sk)
+            print(sentence)
+
+            for ak in [key for key in post.keys() if f'adj-{sentence_num}' in key]:
+                adj_num = ak.split("-")[-1]
+                synonym_key = f'synonym-{sentence_num}-{adj_num}'
+
+                sug = post.get(synonym_key)
+                adj = post.get(ak)
+
+                sentence = sentence.replace(adj, sug)
+
             generated_sentences.append(sentence)
-            target += 1
+
 
     return render(request, 'SuggestAdjectives/generated.html',
                   {
+                      'original': original_sentences,
                       'generated': generated_sentences
                   })

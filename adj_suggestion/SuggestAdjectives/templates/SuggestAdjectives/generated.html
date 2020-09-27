@@ -15,13 +15,13 @@
             <p>{{ gen_sent }}</p>
         </div>
         {% endfor %}
+        <div class="return-button-container">
         <a href="{% url 'SuggestAdjectives:InputContents' %}">
-            <div class="return-button-container">
                 <div class="button return-button">
                     <p>Return to main</p>
                 </div>
-            </div>
         </a>
+        </div>
     </div>
 </body>
 </html>

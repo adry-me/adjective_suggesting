@@ -101,4 +101,4 @@ def main(target_path):
     find_syn(lines, w2v_model)
 
 if __name__ == '__main__':
-    parse_input('He is a good and nice guy')
+    print(parse_input('He is defiant'))

@@ -40,7 +40,7 @@ class SynonymGenerator:
             self.synonyms = synonyms
 
     def generate(self):
-        results= []
+        results = []
         for syn in self.synonyms:
             new_line = self.line.replace(self.adj, syn)
             words = new_line.split()
