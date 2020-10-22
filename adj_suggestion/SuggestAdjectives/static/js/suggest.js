@@ -64,6 +64,24 @@ window.addEventListener('load', () => {
         const paragraphs = div.querySelectorAll('.suggest-word-container');
         const adjParagraph = adjDiv.querySelector('.suggest-word-container');
 
+        const openBtn = div.querySelector('.open-button');
+        const openBtnImg = openBtn.querySelector('img');
+        const hiddenSynonyms = div.querySelector('.hidden-synonym');
+        let open = false;
+
+        openBtn.addEventListener('click', () => {
+            open = !open;
+            if (open) {
+                openBtnImg.setAttribute('src', '/static/img/open.svg')
+                hiddenSynonyms.classList.remove('hidden-object')
+
+            }
+            else {
+                openBtnImg.setAttribute('src', '/static/img/close.svg')
+                hiddenSynonyms.classList.add('hidden-object')
+            }
+        });
+
         let selected = null;
 
         const select = p => {
@@ -96,7 +114,7 @@ window.addEventListener('load', () => {
 
     const rows = document.querySelector('.suggest-body').querySelectorAll('.suggest-row-container');
     rows.forEach(row => {
-        const pTags = row.querySelector('.suggest-original-line').querySelectorAll('p');
+        const pTags = row.querySelector('.suggest-original-line').querySelectorAll('span');
         const suggestContainers = document.querySelectorAll('.suggest-adj-sentence-container');
         suggestContainers.forEach(suggestion => {
             suggestion.addEventListener('mouseover', (event) => {

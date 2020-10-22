@@ -27,6 +27,9 @@ def _get_html(word):
 
     try:
         response = urlopen(f'http://www.thesaurus.com/browse/{word}')
+    except UnicodeEncodeError:
+        print(f'********{word}*********')
+        return None
     except HTTPError:
         return None
     html = response.read().decode('utf-8')
@@ -63,7 +66,9 @@ def _parse_thesaurus_div(div):
 
         words[class_name].append(a_tag.text)
 
-    return words[css_keys[0]]
+    if len(css_keys) > 0:
+        return words[css_keys[0]]
+    return []
 
 
 def _parse_soup(soup):

@@ -1,0 +1,58 @@
+.SelectContentsMainContainer {
+    margin: 50px;
+    padding: 30px;
+}
+
+.SelectHeader {
+    border: 2px solid gray;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: aliceblue;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-weight: bold;
+}
+
+.SelectContents {
+    display: flex;
+    width: 100%;
+    min-height: 60px;
+    padding-bottom: 10px;
+}
+
+.SelectContentsDiv1 {
+    border: 1px solid gray;
+    width: 80%;
+    margin-right: 10px;
+    padding: 20px;
+    background: aliceblue;
+
+    display: flex;
+    justify-content: center;
+
+    font-family: 'Alegreya', serif;
+    font-size: 24px;
+}
+
+.SelectContentsDiv2 {
+    border: 1px solid gray;
+    width: 20%;
+    background: aliceblue;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'Alegreya', serif;
+    font-size: 24px;
+
+    padding: 20px 0;
+}
+
+.Checkbox {
+    width: 20%
+}

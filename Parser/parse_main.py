@@ -41,16 +41,35 @@ def load_file(filename, encoding='utf-8'):
 
 
 if __name__ == '__main__':
-    from data.settings import W_P5 as SETTING
-    contents = parse(f'data/{SETTING.filename}.txt',
-                     SETTING.exclude_target,
-                     SETTING.marker_options,
-                     SETTING.special_char,
-                     SETTING.special_with_blank,
-                     save=True,
-                     save_path=f'data/{SETTING.filename}_mod.txt',
-                     encoding=SETTING.encoding
-                     )
+    import os
+    import data.settings as settings
+    import string
 
-    for content in contents:
-        print(content)
+    authors = [d for d in os.listdir('data')
+               if os.path.isdir(f'data/{d}')
+               and d[0] not in ['.', '_']]
+    for author in authors:
+        for fname in os.listdir(f'data/{author}'):
+            if fname == 'Hamlet.txt':
+                SETTING = getattr(settings, fname.split('.txt')[0], None)
+                file_path = 'data/Kafka/T_Tr.txt'
+
+                print(f'{SETTING} {fname}')
+
+                if SETTING is not None and os.path.exists(f'{file_path}'):
+                    SETTING.special_char.extend(list(string.punctuation))
+                    SETTING.special_char.extend('—')
+                    contents = parse(f'{file_path}',
+                                     SETTING.exclude_target,
+                                     SETTING.marker_options,
+                                     SETTING.special_char,
+                                     SETTING.special_with_blank,
+                                     save=True,
+                                     save_path=f'data/Kafka/T_Tr_mod.txt',
+                                     encoding=SETTING.encoding
+                                     )
+
+                    for con in contents:
+                        print(con)
+            else:
+                continue

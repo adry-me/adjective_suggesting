@@ -11,3 +11,4 @@ class Synonym(models.Model):
 class Adjective(models.Model):
     word = models.TextField('word', max_length=200)
     synonyms = models.ManyToManyField('self')
+    is_ready = models.BooleanField('is crawled?', default=False)

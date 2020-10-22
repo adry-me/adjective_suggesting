@@ -1,6 +1,10 @@
+import json
+import string
+
+from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Adjective
-from .create_dictionary import save
+from .create_dictionary import save, create_synonyms
 import os
 from pathlib import Path
 import sys
@@ -19,6 +23,7 @@ sys.path.append(os.path.dirname(
 ))
 import main
 from nlp.synonymgenerator import SynonymGenerator
+from .model.w2v_suggest import most_similar
 
 
 # Create your views here.
@@ -30,40 +35,65 @@ def input_contents(request):
     return render(request, 'SuggestAdjectives/input_contents.html')
 
 
+def select_words(request):
+    if request.method == 'GET':
+        raw_lines = ['He is a good and nice guy', 'She is a kind and compassionate girl, one of the best people I have ever met in my life']
+    else:
+        input_text_raw = request.POST.get('input-text')
+        raw_lines = list(map(str.rstrip, input_text_raw.split('\n')))
+
+    authors = get_author_names()
+
+    lines = []
+    for line in raw_lines:
+        for p in string.punctuation:
+            line = line.replace(p, '')
+        lines.append(line.lower())
+
+    return render(request, 'SuggestAdjectives/select_words.html', {
+        'lines': lines,
+        'authors': authors
+    })
+
+
 def suggest(request):
     original_lines = []
-    suggested_lines = []
+    similar_sentences = {}
     generated_sentences = {}
     if request.method == 'POST':
-        input_text_raw = request.POST.get('input-text', '')
-        lines = list(map(str.rstrip, input_text_raw.split('\n')))
+        selected = json.loads(request.POST.get('selected-words'))
+        authors = [author for author in get_author_names()
+                   if request.POST.get(author) is not None]
+
+        lines = selected.keys()
 
         os.chdir(root)
-
-        w2v_model = main.create_model()
         syn_gen_list = []
 
         for line in lines:
-            adj_list = []
+            adj_list = selected[line]
 
-            for word in line.split():
-                if len(Adjective.objects.filter(word=word)) > 0:
-                    adj_list.append(word)
             for adj in adj_list:
                 adj_objects = Adjective.objects.filter(word=adj)
-                # if len(adj_objects) == 0:
-                #     syn_gen = main.find_syn_adj(line, adj, w2v_model)
-                #     syn_gen_list.append(syn_gen)
-                #     adj_object = Adjective(word=adj)
-                #     adj_object.save()
-                #     syn_objects = save(syn_gen.synonyms)
-                #     for syn_obj in syn_objects:
-                #         adj_object.synonyms.add(syn_obj)
-                # else:
-                adj_object = adj_objects[0]
-                synonyms = [syn.word for syn in adj_object.synonyms.all()]
-                syn_gen = SynonymGenerator.load(line, adj, synonyms)
-                syn_gen_list.append(syn_gen)
+                if len(adj_objects) > 0:
+                    adj_object = adj_objects[0]
+                    adj_word = adj_object.word
+                    synonyms = []
+                    similar_words = []
+                    for author in authors:
+                        sim_words = most_similar(author, adj_word)
+                        for sim in sim_words:
+                            if sim[0] not in synonyms and sim[0] != adj_word:
+                                # synonyms.append(sim[0])
+                                similar_words.append(sim[0])
+
+                    synonyms.extend([syn.word for syn in adj_object.synonyms.all()
+                                     if syn.word not in similar_words and syn.word != adj_word])
+                    for sim in similar_words:
+                        synonyms.extend([syn.word for syn in Adjective.objects.get(word=sim).synonyms.all()
+                                         if syn.word not in similar_words and syn.word != adj_word])
+                    syn_gen = SynonymGenerator.load(line, adj, synonyms, similar_words)
+                    syn_gen_list.append(syn_gen)
 
             words = line.split()
             line_split = []
@@ -84,15 +114,16 @@ def suggest(request):
             if syn_gen.line not in generated_sentences:
                 generated_sentences[syn_gen.line] = {}
 
-            generated_sentences[syn_gen.line][syn_gen.adj] = syn_gen.synonyms
+            generated_sentences[syn_gen.line][syn_gen.adj] = {
+                'synonyms': syn_gen.synonyms,
+                'similar': syn_gen.w2v_sim,
+            }
 
-        os.chdir(root)
-
+        os.chdir(f'{root}/adj_suggestion')
 
     return render(request, 'SuggestAdjectives/suggest.html',
                   {
                       'original': original_lines,
-                      'suggested': suggested_lines,
                       'generated': generated_sentences,
                   })
 
@@ -106,7 +137,6 @@ def generated(request):
         for sk in sentence_keys:
             sentence_num = sk.split("-")[-1]
             sentence = post.get(sk)
-            print(sentence)
 
             for ak in [key for key in post.keys() if f'adj-{sentence_num}' in key]:
                 adj_num = ak.split("-")[-1]
@@ -119,9 +149,38 @@ def generated(request):
 
             generated_sentences.append(sentence)
 
-
     return render(request, 'SuggestAdjectives/generated.html',
                   {
                       'original': original_sentences,
                       'generated': generated_sentences
                   })
+
+
+def api_check_adjectives_in_db(request):
+    words = request.GET.getlist('words[]')
+    response = {
+        'ok': [],
+        'no': [],
+    }
+
+    for word in words:
+        for p in string.punctuation:
+            word.replace(p, '')
+        if len(Adjective.objects.filter(word=word)) > 0:
+            response['ok'].append(word)
+        else:
+            response['no'].append(word)
+
+    return HttpResponse(json.dumps(response), content_type='application/json')
+
+
+def api_save_new_words(request):
+    forced = request.GET.getlist('words[]')
+    create_synonyms(forced)
+
+    return HttpResponse('')
+
+def get_author_names():
+    rel_path = f'{root}/adj_suggestion/SuggestAdjectives/model'
+    return [fname for fname in os.listdir(rel_path)
+            if os.path.isdir(f'{rel_path}/{fname}') and fname[0] not in ['.', '_']]

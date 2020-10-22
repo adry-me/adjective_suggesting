@@ -117,8 +117,8 @@ A_K1 = Setting(
     marker_options={
         'chapter': 'Chapter'
     },
-    special_char=['-', '‘', '.', '“', '—'],
-    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”', '—']
+    special_char=['-', '‘', '.', '“', '—', '('],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”', '—', ')']
 )
 
 A_K2 = Setting(
@@ -231,7 +231,25 @@ Hamlet = Setting(
         'enter': 'Enter',
         'exit': 'Exit',
         'exeunt': 'Exeunt',
-        'chapter': 'Chapter'
+        'chapter': 'Chapter',
+        'bernardo': 'BERNARDO',
+        'horatio': 'HORATIO',
+        'francisco': 'FRANCISCO',
+        'marcellus': 'MARCELLUS',
+        'king claudius': 'KING CLAUDIUS',
+        'queen gertrude': 'QUEEN GERTRUDE',
+        'hamlet': 'HAMLET',
+        'polonius': 'POLONIUS',
+        'laertes': 'LAERTES',
+        'voltimand': 'VOLTIMAND',
+        'cornelius': 'CORNELIUS',
+        'ophelia': 'OPHELIA',
+        'reynaldo': 'REYNALDO',
+        'rosencrantz': 'ROSENCRANTZ',
+        'guildenstern': 'GUILDENSTERN',
+        'lucianus': 'LUCIANUS',
+        'prince fortinbras': 'PRINCE FORTINBRAS',
+        'osric': 'OSRIC'
     },
     special_char=['‘', '.', '“', '.', '!', '?', ',', '-'],
     special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”']
@@ -353,4 +371,17 @@ A_B = Setting(
     },
     special_char=['-', '‘', '.'],
     special_with_blank=['.', '!', '?', ';', ',', '’', ':']
+)
+
+T_Tr = Setting(
+    filename='T_Tr',
+    exclude_target=['mrs', 'mr', 'ms', 'etc', 'k'],
+    marker_options={
+        'split': '* * * * *',
+        'title': 'The Trial',
+        'chapter': 'Chapter',
+        'website': 'eBook.com',
+    },
+    special_char=['-', '‘', '.', '—', ';—', '“', '’', '—'],
+    special_with_blank=['.', '!', '?', ';', ',', '’', ':', '”', '']
 )

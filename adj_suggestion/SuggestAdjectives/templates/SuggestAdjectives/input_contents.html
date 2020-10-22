@@ -6,9 +6,12 @@
     {% include 'SuggestAdjectives/libs.html' %}
 </head>
 <body class="bg-light">
-    <form method="post" action="{% url 'SuggestAdjectives:Suggest' %}">
+    <form method="post" action="{% url 'SuggestAdjectives:SelectWords' %}">
         {% csrf_token %}
-        <div class="InputContentsMainContainer bg-white rounded-box shadow-box">
+        <div class="website-name">
+            <p>Synstyle</p>
+        </div>
+        <div class="InputContentsMainContainer bg-blue rounded-box shadow-box">
             <h1>Enter your text</h1>
             <div class="TextAreaContainer">
                 <label>
@@ -16,7 +19,7 @@
                 </label>
             </div>
             <div class="SubmitButtonContainer">
-                <input type="submit" class="button submit-button" value="SUGGEST">
+                <input type="submit" class="button submit-button" value="Select">
             </div>
         </div>
     </form>

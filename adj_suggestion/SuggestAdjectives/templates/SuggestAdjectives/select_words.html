@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% include 'SuggestAdjectives/libs.html' %}
+    {% load static %}
+    <script type="text/javascript" src="{% static '/js/select.js' %}"></script>
+</head>
+<body class="bg-light">
+    <div class="website-name">
+        <p>Synstyle</p>
+    </div>
+    <div class="SelectContentsMainContainer bg-blue rounded-box shadow-box">
+        <div class="SelectHeader">
+            <p>Select Your Adjectives</p>
+        </div>
+        <div id="hidden-input" style="display: none;">
+            {% for line in lines %}
+                <p>{{ line }}</p>
+            {% endfor %}
+        </div>
+        <div id="select-container">
+            {% for line in lines %}
+            <div class="SelectContents">
+                <div class="SelectContentsDiv1" id="original-{{ forloop.counter }}">
+                </div>
+                <div class="SelectContentsDiv2" id="selected-{{ forloop.counter }}">
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="SelectContents right-align">
+            <div id="check-btn" class="button generate-button">
+                <p>Check</p>
+            </div>
+            <div id="proceed-btn" class="button inactive generate-button">
+                <p>Proceed</p>
+            </div>
+        </div>
+
+        <form id="proceed-form" method="post" action="{% url 'SuggestAdjectives:Suggest' %}">
+            {% csrf_token %}
+            <div class="AuthorSelectionContainer">
+                <div class="AuthorRow">
+                    <div class="AuthorCol">
+                        <input type="checkbox" id="all">
+                        <label for="all">SELECT ALL</label>
+                    </div>
+                </div>
+                <div class="AuthorRow">
+                    <div id="AuthorColBody" class="AuthorCol">
+                    {% for author in authors %}
+                        <input type="checkbox" id="{{ author }}" name="{{ author }}">
+                        <label for="{{ author }}">{{ author }}</label>
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="waiting-screen" class="block-screen hidden-object"></div>
+</body>
+</html>

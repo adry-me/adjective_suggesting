@@ -6,6 +6,7 @@ class SynonymGenerator:
         self.line = line
         self.adj = adj
         self.synonyms = []
+        self.w2v_sim = []
         
     def create(self, w2v_model):
         if self.adj in w2v_model.get_vocabs():
@@ -55,9 +56,10 @@ class SynonymGenerator:
         return results
 
     @staticmethod
-    def load(line, adj, synonyms):
+    def load(line, adj, synonyms, w2v_sim=None):
         syn_gen = SynonymGenerator(line, adj)
         syn_gen.synonyms = synonyms
+        syn_gen.w2v_sim = w2v_sim if w2v_sim is not None else []
 
         return syn_gen
 

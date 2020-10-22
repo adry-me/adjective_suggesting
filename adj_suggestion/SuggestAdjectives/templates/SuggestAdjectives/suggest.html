@@ -12,7 +12,10 @@
     {% load dict_key %}
     <form method="post" action="{% url 'SuggestAdjectives:Generated' %}">
         {% csrf_token %}
-        <div class="SuggestContentsMainContainer bg-white rounded-box shadow-box">
+        <div class="website-name">
+            <p>Synstyle</p>
+        </div>
+        <div class="SuggestContentsMainContainer bg-blue rounded-box shadow-box">
             <div class="suggest-row-container suggest-header">
                 <div class="suggest-col-container">
                     <p>Original</p>
@@ -29,14 +32,16 @@
                 {% for sentence, adj_dict in generated.items %}
                 <div class="suggest-row-container">
                     <div id="sentence-{{ forloop.counter }}" class="suggest-col-container suggest-original-line">
+                        <p>
                         {% for word in original|index:forloop.counter0 %}
-                        <p id="{{ word }}">{{ word }}&nbsp</p>
+                        <span id="{{ word }}">{{ word }} </span>
                         {% endfor %}
+                        </p>
                         <input type="hidden" name="sentence-{{ forloop.counter }}" value="{{ sentence }}">
                     </div>
                     {% with sentence_id=forloop.counter %}
                         <div class="suggest-col-container">
-                            {% for adj, synonyms in adj_dict.items %}
+                            {% for adj, syn_gen in adj_dict.items %}
                             <div class="suggest-adj-sentence-container">
                                 <div id="adj-{{ sentence_id }}-{{ forloop.counter }}" class="adj-container">
                                     <div class="open-button cursor-pointer">
@@ -47,11 +52,23 @@
                                     </div>
                                 </div>
                                 <div id="synonym-{{ sentence_id }}-{{ forloop.counter }}" class="sentence-container">
-                                    {% for syn in synonyms %}
+                                    {% for sim in syn_gen.similar %}
                                     <div class="suggest-word-container">
-                                        <p>{{ syn }}</p>
+                                        <p>{{ sim }}</p>
                                     </div>
                                     {% endfor %}
+
+                                    <div style="display: flex;" class="open-button cursor-pointer">
+                                        <img src="{% static '/img/close.svg' %}">
+                                        <p>show synonyms</p>
+                                    </div>
+                                    <div class="hidden-synonym hidden-object">
+                                        {% for syn in syn_gen.synonyms %}
+                                        <div class="suggest-word-container">
+                                            <p>{{ syn }}</p>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
                                 </div>
                             </div>
                             {% endfor %}
@@ -61,9 +78,9 @@
                 {% endfor %}
             </div>
 
-        <div class="GenerateButtonContainer">
-            <input type="submit" class="button generate-button" value="Generate">
-        </div>
+            <div class="GenerateButtonContainer">
+                <input type="submit" class="button generate-button" value="Generate">
+            </div>
         </div>
     </form>
 </body>

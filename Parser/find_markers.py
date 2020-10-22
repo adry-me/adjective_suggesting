@@ -18,7 +18,7 @@ def get_markers(lines, **kwargs):
 
 
 if __name__ == '__main__':
-    with open('../data/P_P.txt') as f:
+    with open('../data/Austen/P_P.txt') as f:
         lines = f.readlines()
         
     lines = list(map(str.rstrip, lines))
